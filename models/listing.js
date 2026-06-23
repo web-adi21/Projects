@@ -32,3 +32,4 @@ let listingSchema = new Schema({
 const Listing = new mongoose.model("Listing", listingSchema)
 
 module.exports = Listing;
+
