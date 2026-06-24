@@ -27,25 +27,28 @@ app.get("/", (req, res) => {
   res.send("this is root");
 })
 
-app.get("/testlisting" , (req , res) => {
-  let sampleListing = new Listing({
-    title : "my house",
-    description :"a great house",
-    price: 5000,
-    location : "shahganj",
-    country : "India"
-  });
 
-  sampleListing.save()
-    .then(() => {
-      console.log("sampleListing was saved");
-    })
-    .catch((err) => {
+
+
+app.get("/listings" , async (req , res) => {
+  try {
+  let allListings = await Listing.find({});
+
+      res.render("listings/index.ejs", { allListings });
+  } catch(err) {
       console.log(err);
-    })
+      res.send("error occured while getting data from the database");
+  }
+  
 })
 
-
+app.get("/listings/:id", async (req , res) => {
+  let { id } = req.params;
+  console.log(id);
+  let selectedListing = await Listing.findById(id);
+  console.log(selectedListing);
+  res.render("show.ejs", { selectedListing });
+})
 
 app.listen(3000, () => {
   console.log("server is listening on port 3000");
