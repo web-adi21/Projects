@@ -42,6 +42,32 @@ app.get("/listings" , async (req , res) => {
   
 })
 
+app.get("/listings/new", (req , res) => {
+ try{
+    res.render("new.ejs")
+ }catch(error) {
+  console.log(error);
+ }
+})
+ 
+app.post("/listings", async (req,res) => {
+  const {title , image , price , description , location , country} = req.body;
+  const newListing = new Listing({
+    title : title,
+    description: description,
+    image: {
+      filename: "listingimage",
+      url: image
+    },
+    price:price,
+    location: location, 
+    country: country
+  })
+  await newListing.save();
+  
+  res.redirect("/listings")
+})
+
 app.get("/listings/:id", async (req , res) => {
   let { id } = req.params;
   console.log(id);
@@ -49,6 +75,8 @@ app.get("/listings/:id", async (req , res) => {
   console.log(selectedListing);
   res.render("show.ejs", { selectedListing });
 })
+
+
 
 app.listen(3000, () => {
   console.log("server is listening on port 3000");
