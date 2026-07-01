@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const app = express();
 const path = require('path');
 const Listing = require("./models/listing.js");
-const methodOverride = require("method-override")
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate")
 
 main()
   .then(() => {
@@ -23,6 +24,8 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
+app.engine('ejs', ejsMate);
+
  
 
 app.get("/", (req, res) => {
@@ -30,7 +33,7 @@ app.get("/", (req, res) => {
 })
 
 
-
+//All listings route
 
 app.get("/listings" , async (req , res) => {
   try {
@@ -44,6 +47,8 @@ app.get("/listings" , async (req , res) => {
   
 })
 
+
+//New listing route
 app.get("/listings/new", (req , res) => {
  try{
     res.render("new.ejs")
@@ -52,6 +57,8 @@ app.get("/listings/new", (req , res) => {
  }
 })
  
+
+
 app.post("/listings", async (req,res) => {
   const {title , image , price , description , location , country} = req.body;
   const newListing = new Listing({
@@ -71,7 +78,7 @@ app.post("/listings", async (req,res) => {
 })
 
 
-
+//edit route
 
 app.get("/listings/:id/edit", async (req , res) => {
   let { id } = req.params;
@@ -87,6 +94,8 @@ app.put("/listings/:id", async (req , res) => {
   res.redirect(`/listings/${id}`)
 })
 
+
+//Delete route
 app.delete("/listings/:id", async (req,res) => {
   let { id } = req.params;
   let deletedListing = await Listing.findByIdAndDelete(id);
@@ -94,6 +103,8 @@ app.delete("/listings/:id", async (req,res) => {
   res.redirect("/listings")
 })
 
+
+//show route
 app.get("/listings/:id", async (req , res) => {
   let { id } = req.params;
   console.log(id);
