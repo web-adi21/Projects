@@ -84,13 +84,20 @@ body {
   padding: 0; 
 }
 
-.card-text {
+.index-card-text {
   font-weight: 400 !important;
 }
 
-.card:hover {
+.index-card:hover {
   width: 28% !important;
   height: 40rem !important;
   box-shadow: 2px 2px 4px grey;
   transition-duration: 0.5s;
 }
+
+.show-card-img {
+  height:30vh;
+  width: 50% !important;
+ 
+}
+
