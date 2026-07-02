@@ -1,19 +1,54 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-  <h1> Create a New Lising</h1>
+  <div class="row">
+    <div class="col-8 offset-2">
+      <br><br>
+        <h1> Create a New Lising</h1>
   <form method="post" action="/listings">
-    <h3>Title : <input type="text" name="title" placeholder="Enter your listing's title here"></h3>
-    <br><br>
-    <h3>Description : <textarea type="text" name="description" placeholder="Enter your listing's title here"></textarea></h3>
-    <br><br>
-    <h3>Image : <input type="text" name="image" placeholder="Enter your listing's Image URL here"></h3>
-    <br><br>
-    <h3>Price : <input type="number" name="price" placeholder="Enter your listing's title here"></h3>
-    <br><br>
-    <h3>Location : <input type="text" name="location" placeholder="Enter your listing's title here"></h3>
-    <br><br>
-    <h3>Country : <input type="text" name="country" placeholder="Enter your listing's title here"></h3>
-    <br><br>
-    <button>Add</button>
+
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+    <input type="text" name="title" class="form-control" placeholder="Give your listing a unique title">
+    </div>
+
+    <div class="mb-3">
+   <label for="description" class="form-label">Description</label> 
+   <textarea type="text" class="form-control" name="description">Describe your listing</textarea>
+   </div>
+
+    <div class="mb-3">
+    <label for="image" class="form-label">Image</label>
+    <input type="text" name="image" class="form-control" placeholder="enter image's URL/Link">
+    </div>
+
+    <div class="row">
+
+          <div class="mb-3 col-md-4">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" name="price" class="form-control" placeholder="eg 1200">
+        </div>
+
+        <div class="mb-3 col-md-8">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" name="country" class="form-control" placeholder="India">
+        </div>
+
+    </div>
+
+    
+
+    <div class="mb-3">
+   <label for="location" class="form-label">Location</label>
+    <input type="text" name="location" class="form-control" placeholder="Ranchi , Jharkhand">
+    </div>
+
+    
+
+    <button class="btn add-btn">Add</button>
+    <br>
+    <br>
   </form>
+    </div>
+  </div>
+  
 </body>
