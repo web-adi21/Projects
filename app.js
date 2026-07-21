@@ -59,24 +59,15 @@ app.get("/listings/new", (req , res) => {
  
 
 
-app.post("/listings", async (req,res) => {
-  const {title , image , price , description , location , country} = req.body;
-  const newListing = new Listing({
-    title : title,
-    description: description,
-    image: {
-      filename: "listingimage",
-      url: image
-    },
-    price:price,
-    location: location, 
-    country: country
-  })
-  await newListing.save();
-  
-  res.redirect("/listings")
-})
-
+app.post("/listings", async (req, res,next) => {
+    try {
+        const newListing = new Listing(req.body.listing);
+        await newListing.save();
+        res.redirect("/listings");
+    } catch (err) { 
+      next(err); 
+    }
+});
 
 //edit route
 
@@ -113,7 +104,9 @@ app.get("/listings/:id", async (req , res) => {
   res.render("show.ejs", { selectedListing });
 })
 
-
+app.use((err,req,res,next) => {
+  res.send("Something went wrong");
+})
 
 app.listen(3000, () => {
   console.log("server is listening on port 3000");
