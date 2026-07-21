@@ -4,16 +4,16 @@
     <div class="col-8 offset-2">
       <br><br>
         <h1> Create a New Lising</h1>
-  <form method="post" action="/listings">
+  <form method="post" action="/listings" novalidate class="needs-validation" >
 
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
-    <input type="text" name="title" class="form-control" placeholder="Give your listing a unique title">
+    <input type="text" name="title" class="form-control" placeholder="Give your listing a unique title" required>
     </div>
 
     <div class="mb-3">
    <label for="description" class="form-label">Description</label> 
-   <textarea type="text" class="form-control" name="description">Describe your listing</textarea>
+   <textarea type="text" class="form-control" name="description" required>Describe your listing</textarea>
    </div>
 
     <div class="mb-3">
@@ -25,12 +25,12 @@
 
           <div class="mb-3 col-md-4">
         <label for="price" class="form-label">Price</label>
-        <input type="number" name="price" class="form-control" placeholder="eg 1200">
+        <input type="number" name="price" class="form-control" placeholder="eg 1200" required>
         </div>
 
         <div class="mb-3 col-md-8">
         <label for="country" class="form-label">Country</label>
-        <input type="text" name="country" class="form-control" placeholder="India">
+        <input type="text" name="country" class="form-control" placeholder="India" required>
         </div>
 
     </div>
@@ -39,7 +39,7 @@
 
     <div class="mb-3">
    <label for="location" class="form-label">Location</label>
-    <input type="text" name="location" class="form-control" placeholder="Ranchi , Jharkhand">
+    <input type="text" name="location" class="form-control" placeholder="Ranchi , Jharkhand" required>
     </div>
 
     
