@@ -7,7 +7,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")
 const wrapAsync = require('./utils/wrapAsync.js')
 const ExpressError = require('./utils/ExpressError.js');
-const {listingSchema} = require("./schema.js");
+const {listingSchema, reviewSchema} = require("./schema.js");
+const Review = require("./models/reviews.js")
 
 
 main()
@@ -36,6 +37,8 @@ app.get("/", (req, res) => {
   res.send("this is root");
 })
 
+//server side Validations
+
 const validateListing = (req,res,next) => {
   let {error} = listingSchema.validate(req.body);
     if(error) {
@@ -45,6 +48,30 @@ const validateListing = (req,res,next) => {
       next();
     }
 }
+
+const validateReview = (req,res,next) => {
+  let {error} = reviewSchema.validate(req.body);
+    if(error) {
+      let errMsg = error.details.map((el) => el.message).join(",")
+      throw new ExpressError(400, errMsg);
+    } else {
+      next();
+    }
+}
+
+//Reviews
+app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req,res) => {
+  let selectedListing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+
+  selectedListing.reviews.push(newReview);
+  await newReview.save();
+  await selectedListing.save();
+  console.log("new review saved");
+  res.redirect(`/listings/${req.params.id}`);
+}));
+
+
 //All listings route
 
 app.get("/listings" , wrapAsync(async (req , res) => {
@@ -121,6 +148,9 @@ app.use((err,req,res,next) => {
   let { statusCode = 500, message = "Something went wrong" } = err;
   res.status(statusCode).render('error.ejs', {message});
 })
+
+
+
 
 app.listen(3000, () => {
   console.log("server is listening on port 3000");
