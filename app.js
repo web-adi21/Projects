@@ -8,12 +8,14 @@ const ejsMate = require("ejs-mate")
 const wrapAsync = require('./utils/wrapAsync.js')
 const ExpressError = require('./utils/ExpressError.js');
 const {listingSchema, reviewSchema} = require("./schema.js");
-const Review = require("./models/reviews.js")
+const Review = require("./models/reviews.js");
+
+const listings = require("./routes/listing.js");
 
 
 main()
   .then(() => {
-    console.log("connection succesfully established");
+    console.log("connection succesfully established"); 
   })
   .catch((err) => {
     console.log(err);
@@ -31,33 +33,23 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
- 
+  
+
+ const validateReview = (req,res,next) => {
+   let {error} = reviewSchema.validate(req.body);
+     if(error) {
+       let errMsg = error.details.map((el) => el.message).join(",")
+       throw new ExpressError(400, errMsg);
+     } else {
+       next();
+     }
+ }
 
 app.get("/", (req, res) => {
   res.send("this is root");
 })
 
-//server side Validations
-
-const validateListing = (req,res,next) => {
-  let {error} = listingSchema.validate(req.body);
-    if(error) {
-      let errMsg = error.details.map((el) => el.message).join(",")
-      throw new ExpressError(400, errMsg);
-    } else {
-      next();
-    }
-}
-
-const validateReview = (req,res,next) => {
-  let {error} = reviewSchema.validate(req.body);
-    if(error) {
-      let errMsg = error.details.map((el) => el.message).join(",")
-      throw new ExpressError(400, errMsg);
-    } else {
-      next();
-    }
-}
+app.use("/listings", listings);
 
 //Reviews
 app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req,res) => {
@@ -81,74 +73,11 @@ app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async(req,res) => {
 }))
 
 
-//All listings route
-
-app.get("/listings" , wrapAsync(async (req , res) => {
-  try {
-  let allListings = await Listing.find({});
-
-      res.render("listings/index.ejs", { allListings });
-  } catch(err) {
-      console.log(err);
-      res.send("error occured while getting data from the database");
-  }
-  
-}));
 
 
-//New listing route
-app.get("/listings/new", (req , res) => {
- try{
-    res.render("new.ejs")
- }catch(error) {
-  console.log(error);
- }
-})
- 
 
 
-app.post("/listings",validateListing, wrapAsync(async (req, res, next) => {
-    
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-}));
 
-//edit route
-
-app.get("/listings/:id/edit", wrapAsync(async (req , res) => {
-  let { id } = req.params;
-  let selectedListing = await Listing.findById(id);
-
-  res.render("edit.ejs" , { selectedListing })
-}));
-
-app.put("/listings/:id",validateListing, wrapAsync(async (req , res) => {
-  console.log("req received");
-  let { id } = req.params;
-  await Listing.findByIdAndUpdate(id , {...req.body.listing});
-  res.redirect(`/listings/${id}`)
-}));
-
-
-//Delete route
-app.delete("/listings/:id", wrapAsync(async (req,res) => {
-  let { id } = req.params;
-  let deletedListing = await Listing.findByIdAndDelete(id);
-  console.log(deletedListing);
- 
-  res.redirect("/listings")
-}));
-
-
-//show route
-app.get("/listings/:id", wrapAsync(async (req , res) => {
-  let { id } = req.params;
-  console.log(id);
-let selectedListing = await Listing.findById(id).populate("reviews");
-  console.log(selectedListing);
-  res.render("show.ejs", { selectedListing });
-}));
 
 app.all("*", (req,res,next) => {
   next(new ExpressError(404, 'Page not found!'));
