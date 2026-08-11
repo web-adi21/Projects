@@ -5,7 +5,7 @@
   <h3>Listing details</h3>
   <div class="row">
     <div class="col-8 offset-2">
-      <div class="card show-card" >
+      <div class="card show-card listing-card" >
   <img src="<%=selectedListing.image.url%>" class="card-img-top show-card-img" alt="Listing Image">
   <div class="card-body">
     <h5 class="card-title"><%= selectedListing.title%></h5>
@@ -40,6 +40,24 @@
       </div>
       <button class="btn btn-outline-dark">Submit</button>
     </form>
+    <hr />
+
+    <p><b>All Reviews</b></p>
+    
+      <div class="row">
+      <% for(review of selectedListing.reviews) {%>
+        <div class="card col-5 mb-3 ms-3" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Username</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary"><%= review.rating %> stars</h6>
+            <p class="card-text"><%= review.comment %></p>
+          </div>
+        </div>
+      </div>
+        
+      <%}%>
+      
+    
   </div>
 
   </div>

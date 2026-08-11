@@ -15,9 +15,9 @@ let reviewsSchema = new Schema({
     type:Date,
     default: Date.now()
   },
-  
+
 });
 
-const Reviews = new mongoose.model("Reviews", reviewsSchema);
+const Review = mongoose.model("Review", reviewsSchema);
 
-module.exports = Reviews;
+module.exports = Review;
