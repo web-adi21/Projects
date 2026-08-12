@@ -9,6 +9,7 @@ const wrapAsync = require('./utils/wrapAsync.js')
 const ExpressError = require('./utils/ExpressError.js');
 const {listingSchema, reviewSchema} = require("./schema.js");
 const Review = require("./models/reviews.js");
+const session = require("express-session");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js")
@@ -34,7 +35,13 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
-  
+const sessionOptions = {
+  secret: "secretcode",
+  resave: false,
+  saveUninitialized: true
+};
+
+app.use(session(sessionOptions));
 
  
 
