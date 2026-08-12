@@ -11,11 +11,12 @@ const {listingSchema, reviewSchema} = require("./schema.js");
 const Review = require("./models/reviews.js");
 
 const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js")
 
 
 main()
   .then(() => {
-    console.log("connection succesfully established"); 
+    console.log("connection succesfully established");  
   })
   .catch((err) => {
     console.log(err);
@@ -35,15 +36,7 @@ app.engine('ejs', ejsMate);
 
   
 
- const validateReview = (req,res,next) => {
-   let {error} = reviewSchema.validate(req.body);
-     if(error) {
-       let errMsg = error.details.map((el) => el.message).join(",")
-       throw new ExpressError(400, errMsg);
-     } else {
-       next();
-     }
- }
+ 
 
 app.get("/", (req, res) => {
   res.send("this is root");
@@ -51,26 +44,7 @@ app.get("/", (req, res) => {
 
 app.use("/listings", listings);
 
-//Reviews
-app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req,res) => {
-  let selectedListing = await Listing.findById(req.params.id);
-  let newReview = new Review(req.body.review);
-
-  selectedListing.reviews.push(newReview);
-  await newReview.save();
-  await selectedListing.save();
-  console.log("new review saved");
-  res.redirect(`/listings/${req.params.id}`);
-}));
-
-app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async(req,res) => {
-  let { id , reviewId} = req.params;
-  await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
-  await Review.findByIdAndDelete(reviewId);
-  console.log("Review deleted");
-
-  res.redirect(`/listings/${id}`);
-}))
+app.use("/listings/:id/reviews", reviews);
 
 
 
