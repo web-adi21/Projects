@@ -4,6 +4,7 @@ const wrapAsync = require('../utils/wrapAsync.js');
 const ExpressError = require('../utils/ExpressError.js');
 const User = require("../models/user.js");
 const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware.js");
 
 //signup
 
@@ -39,9 +40,14 @@ router.get("/login", wrapAsync(async (req, res) => {
 }));
 
 
-router.post("/login", passport.authenticate("local", {failureRedirect: "/login",failureFlash: true}), async(req,res) => {
+router.post("/login",saveRedirectUrl, passport.authenticate("local", {failureRedirect: "/login",failureFlash: true}), async(req,res) => {
  req.flash("success","Welcome back to WanderLust!");
- res.redirect("/listings");
+ if(res.locals.redirectUrl){
+  res.redirect(res.locals.redirectUrl);
+ }else{
+  res.redirect("/listings");
+ }
+ 
 });
 
 //logout
