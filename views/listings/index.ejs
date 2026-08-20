@@ -7,7 +7,7 @@
   </form> -->
 <div class="row row-col-lg-3 row row-col-md-2 row row-col-sm-1">
    <% for(let i = 0; i<allListings.length;i++) {%>
-  <div class="card index-card listing-card" style="width: 20rem;" >
+  <div class="card index-card listing-card" style="width: 25rem;" >
   <img src="<%= allListings[i].image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
   <div class="card-body">
     <h5 class="card-title"><%= allListings[i].title %><br><br>&#8377;<%=  allListings[i].price.toLocaleString("en-IN") %></h5>

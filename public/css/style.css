@@ -89,10 +89,8 @@ body {
 }
 
 .index-card:hover {
-  width: 28% !important;
-  height: 40rem !important;
   box-shadow: 2px 2px 4px grey;
-  transition-duration: 0.5s;
+  transition-duration: 0.1s;
  
 }
 
