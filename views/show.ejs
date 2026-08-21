@@ -16,6 +16,7 @@
           <li class="list-group-item listing-location"> <%= selectedListing.location%></li>
           <li class="list-group-item listing-country"> <%= selectedListing.country%></li>
         </ul>
+        <p class="card-text ms-auto mt-2">Owned by:  <i><b><%= selectedListing.owner.username %></b></i></p>
         <div class="card-body">
           <a class="btn btn-dark" href="/listings/<%=selectedListing._id %>/edit">Edit Listing</a>
           <br><br>   
