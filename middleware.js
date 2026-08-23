@@ -1,4 +1,5 @@
 const Listing = require("./models/listing");
+const Review = require("./models/reviews.js");
 const {listingSchema} = require("./schema.js");
 const ExpressError = require('./utils/ExpressError.js');
 const {reviewSchema} = require("./schema.js");
@@ -6,13 +7,17 @@ const {reviewSchema} = require("./schema.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
   
-  if(!req.isAuthenticated()) {
-    //redirectUrl
-    req.session.redirectUrl = req.originalUrl;
-    req.flash("error","Please Login to Continue!");
-    return res.redirect("/login");
-  }
-  next();
+ if(!req.isAuthenticated()) {
+        
+        // Only save the URL if it is a standard GET request
+        if (req.method === 'GET') {
+            req.session.redirectUrl = req.originalUrl;
+        }
+
+        req.flash("error", "Please Login to Continue!");
+        return res.redirect("/login");
+    }
+    next();
 }
 
 module.exports.saveRedirectUrl = (req,res,next) => {
@@ -53,3 +58,14 @@ module.exports.validateListing = (req,res,next) => {
       }
   }
  
+  module.exports.isReviewWriter = async (req,res,next) => {
+    let {id,reviewId} = req.params;
+    let selectedReview = await Review.findById(reviewId);
+    console.log(selectedReview);
+    if(!selectedReview.writer._id.equals(res.locals.currUser._id)) {
+    req.flash("error","You are not the author of this Review!");
+    return res.redirect(`/listings/${id}`);
+  }
+
+  next();
+}

@@ -49,7 +49,11 @@ router.post("/",validateListing, wrapAsync(async (req, res, next) => {
 router.get("/:id", wrapAsync(async (req , res) => {
   let { id } = req.params;
   console.log(id);
-let selectedListing = await Listing.findById(id).populate("reviews").populate("owner");
+let selectedListing = await Listing.findById(id)
+                                  .populate({path:"reviews",populate:{
+                                    path:"writer"
+                                  }})
+                                  .populate("owner");
   if(selectedListing){
     console.log(selectedListing);
     res.render("show.ejs", { selectedListing });
