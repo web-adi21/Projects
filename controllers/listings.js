@@ -50,7 +50,6 @@ let selectedListing = await Listing.findById(id)
                                   .populate("owner");
   if(selectedListing){
     console.log(selectedListing);
-    res.render("show.ejs", { selectedListing });
     res.render("listings/show.ejs", { selectedListing });
     console.log(selectedListing);
   } else{
@@ -59,6 +58,8 @@ let selectedListing = await Listing.findById(id)
   }
   
 };
+
+//edit
 
 module.exports.edit = async (req , res) => {
 
@@ -72,6 +73,8 @@ module.exports.edit = async (req , res) => {
   }
 };
 
+//update
+
 module.exports.update = async (req , res) => {
   console.log("req received");
   let { id } = req.params;
@@ -79,6 +82,8 @@ module.exports.update = async (req , res) => {
   req.flash("success", "Listing updated!")
   res.redirect(`/listings/${id}`)
 };
+
+//delete
 
 module.exports.delete = async (req,res) => {
   let { id } = req.params;
