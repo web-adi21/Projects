@@ -9,7 +9,7 @@ const { saveRedirectUrl } = require("../middleware.js");
 //signup
 
 router.get("/signup", wrapAsync(async (req, res) => {
-  res.render("signup.ejs");
+  res.render("user/signup.ejs");
 }));
 
 router.post("/signup", wrapAsync(async (req, res) => {
@@ -36,7 +36,7 @@ router.post("/signup", wrapAsync(async (req, res) => {
 //login
 
 router.get("/login", wrapAsync(async (req, res) => {
-  res.render("login.ejs");
+  res.render("user/login.ejs");
 }));
 
 
