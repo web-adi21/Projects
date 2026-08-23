@@ -8,19 +8,19 @@
 
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
-    <input type="text" name="listing[title]" class="form-control" value="<%= selectedListing.title%>" required>
+    <input type="text" name="listing[title]" class="form-control" value="<%=selectedListing.title%>" required>
     <div class="invalid-feedback">Write a suitable title</div>
     </div>
 
     <div class="mb-3">
    <label for="description" class="form-label">Description</label> 
-   <textarea type="text" class="form-control" name="listing[description]" required><%= selectedListing.description%></textarea>
+   <textarea type="text" class="form-control" name="listing[description]" required><%=selectedListing.description%></textarea>
   <div class="invalid-feedback">Write a suitable description</div> 
   </div>
 
     <div class="mb-3">
     <label for="image" class="form-label">Image</label>
-    <input type="text" name="listing[image][url]" class="form-control" value="<%= selectedListing.image.url%>" required>
+    <input type="text" name="listing[image][url]" class="form-control" value="<%=selectedListing.image.url%>" required>
     <div class="invalid-feedback">Posting needs to have an image</div>
   </div>
 
@@ -34,7 +34,7 @@
 
         <div class="mb-3 col-md-8">
         <label for="country" class="form-label">Country</label>
-        <input type="text" name="listing[country]" class="form-control" value ="<%= selectedListing.country%>" required>
+        <input type="text" name="listing[country]" class="form-control" value ="<%=selectedListing.country%>" required>
         <div class="invalid-feedback">Atleast provide a valid country lmao</div>
         </div>
 
@@ -44,7 +44,7 @@
 
     <div class="mb-3">
    <label for="location" class="form-label">Location</label>
-    <input type="text" name="listing[location]" class="form-control" value ="<%= selectedListing.location%>" required>
+    <input type="text" name="listing[location]" class="form-control" value ="<%=selectedListing.location%>" required>
     <div class="invalid-feedback">WOW your posting is in heaven I assume</div>
   </div>
 

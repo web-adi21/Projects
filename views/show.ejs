@@ -17,6 +17,8 @@
           <li class="list-group-item listing-country"> <%= selectedListing.country%></li>
         </ul>
         <p class="card-text ms-auto mt-2">Owned by:  <i><b><%= selectedListing.owner.username %></b></i></p>
+        <%if(currUser){%>
+          <% if(currUser._id.equals(selectedListing.owner._id)) {%>
         <div class="card-body">
           <a class="btn btn-dark" href="/listings/<%=selectedListing._id %>/edit">Edit Listing</a>
           <br><br>   
@@ -24,6 +26,10 @@
             <button class="btn btn-dark">Delete this listing</button>
           </form>
         </div>
+        <%}%>
+        <%}%>
+        
+
       </div> </div> <hr class="col-8 offset-2 my-4">
 
     <div class="col-8 offset-2 mb-3">
