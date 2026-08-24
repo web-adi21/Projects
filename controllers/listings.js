@@ -1,5 +1,5 @@
 const Listing = require("../models/listing");
-const express = require("express");
+
 
 //Index
   module.exports.index = async (req , res) => {
