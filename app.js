@@ -42,7 +42,7 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
 app.get("/", (req, res) => {
-  res.send("this is root");
+  res.redirect("/listings");
 })
 
 const sessionOptions = {

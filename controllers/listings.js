@@ -18,7 +18,7 @@ const Listing = require("../models/listing");
 
 
 //new 
-  module.exports.newGet = (req , res) => {
+  module.exports.newGet = async (req , res) => {
     
     try{
         res.render("listings/new.ejs")
@@ -64,7 +64,8 @@ let selectedListing = await Listing.findById(id)
 module.exports.edit = async (req , res) => {
 
   let { id } = req.params;
-  let selectedListing = await Listing.findById(id);
+  let selectedListing = await Listing.findById(id).populate('owner');
+  console.log(selectedListing);
   if(selectedListing.owner.username == req.user.username){
     res.render("listings/edit.ejs" , { selectedListing });
   }else{
