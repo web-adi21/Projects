@@ -15,6 +15,7 @@ body {
   background-color: #fe424d !important;
   color: white !important;
   font-weight: bold !important;
+  width: 10% !important;
 }
 
 .navbar {
