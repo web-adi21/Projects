@@ -1,14 +1,17 @@
+if(process.nextTick.NODE_ENV!= "production") {
+require("dotenv").config();
+console.log(process.env.SECRET);
+}
+
+
+
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const path = require('path');
-const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")
-const wrapAsync = require('./utils/wrapAsync.js')
 const ExpressError = require('./utils/ExpressError.js');
-const {listingSchema, reviewSchema} = require("./schema.js");
-const Review = require("./models/reviews.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
