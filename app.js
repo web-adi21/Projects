@@ -1,6 +1,5 @@
 if(process.nextTick.NODE_ENV!= "production") {
 require("dotenv").config();
-console.log(process.env.SECRET);
 }
 
 
