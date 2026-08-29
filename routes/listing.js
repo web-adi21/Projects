@@ -19,17 +19,16 @@ router.route("/")
     //Index route
   .get( wrapAsync(listingController.index))
     //new route
-  // .post(isLoggedIn,validateListing, wrapAsync(listingController.newPost));
-  .post( upload.single("listing[image]"), (req,res) => {
-    res.send(req.file);
-  })
+  .post(isLoggedIn,upload.single("listing[image]"),validateListing, wrapAsync(listingController.newPost));
+ 
+  
 
 
 router.route("/:id")
   //show route
   .get( wrapAsync(listingController.show))
   //update route
-  .put(isLoggedIn,isOwner,validateListing, wrapAsync(listingController.update))
+  .put(isLoggedIn,isOwner,upload.single("image"),validateListing, wrapAsync(listingController.update))
   //delete route
   .delete(isLoggedIn,isOwner, wrapAsync(listingController.delete))
 

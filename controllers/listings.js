@@ -29,10 +29,13 @@ const Listing = require("../models/listing");
   };
 
   module.exports.newPost = async (req, res, next) => {
-      
+      let url = req.file.path;
+      let filename = req.file.filename;
+      console.log(url,"...",filename)
       const newListing = new Listing(req.body.listing);
       console.log(req.user);
       newListing.owner = req.user._id;
+      newListing.image = {url , filename};
       await newListing.save();
       req.flash("success", " New Listing Created!");
       res.redirect("/listings");
@@ -77,9 +80,15 @@ module.exports.edit = async (req , res) => {
 //update
 
 module.exports.update = async (req , res) => {
-  console.log("req received");
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id , {...req.body.listing});
+  let selectedListing = await Listing.findByIdAndUpdate(id , {...req.body.listing});
+  if(req.file){
+    let filename = req.file.filename;
+    let url = req.file.path;
+    selectedListing.image = {url , filename};
+    await selectedListing.save();
+  }
+  
   req.flash("success", "Listing updated!")
   res.redirect(`/listings/${id}`)
 };
