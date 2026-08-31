@@ -39,7 +39,7 @@ const geocodingClient = mbxGeocoding({accessToken: mapToken});
      .send();
 
      
-     res.send("done")
+     
      
 
       let url = req.file.path;

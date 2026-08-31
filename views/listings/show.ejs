@@ -2,17 +2,19 @@
 <body>
   <script>
     const mapToken = "<%=process.env.MAP_TOKEN%>";
+    const selectedListing = <%-JSON.stringify(selectedListing)%>;
+    
   </script>
   <br>
   
   <div class="row">
     <div class="col-8 offset-2">
-      <h3>Listing details</h3>
+      <h3->Listing details</h3-
       <div class="card show-card listing-card">
         <img src="<%=selectedListing.image.url%>" class="card-img-top show-card-img" alt="Listing Image">
         <div class="card-body">
           <h5 class="card-title"><%= selectedListing.title%></h5>
-          <p class="card-text"> <%= selectedListing.description%> .</p>
+          <p class="card-text"><%= selectedListing.description%></p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item listing-price"> &#8377; <%= selectedListing.price.toLocaleString("en-IN")%></li>
