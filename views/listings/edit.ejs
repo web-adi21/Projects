@@ -17,7 +17,10 @@
    <textarea type="text" class="form-control" name="listing[description]" required><%=selectedListing.description%></textarea>
   <div class="invalid-feedback">Write a suitable description</div> 
   </div>
-
+  <div class="mb-3">
+    Uploaded Image 
+    <img src="<%=editImgUrl%>">
+  </div>
     <div class="mb-3">
     <label for="image" class="form-label">Upload Image</label>
     <input type="file" name="image" class="form-control">

@@ -101,3 +101,12 @@ body {
  
 }
 
+ /* MAP */
+
+ #map {
+  height: 400px;
+  width: 80vh;
+  border: dotted;
+  border-color: black;
+  border-radius: 15px;
+ }

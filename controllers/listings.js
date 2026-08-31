@@ -1,5 +1,7 @@
 const Listing = require("../models/listing");
-
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({accessToken: mapToken});
 
 //Index
   module.exports.index = async (req , res) => {
@@ -29,6 +31,17 @@ const Listing = require("../models/listing");
   };
 
   module.exports.newPost = async (req, res, next) => {
+
+     let response = await geocodingClient.forwardGeocode({
+     query: req.body.listing.location,
+     limit: 1
+   })
+     .send();
+
+     
+     res.send("done")
+     
+
       let url = req.file.path;
       let filename = req.file.filename;
       console.log(url,"...",filename)
@@ -36,7 +49,9 @@ const Listing = require("../models/listing");
       console.log(req.user);
       newListing.owner = req.user._id;
       newListing.image = {url , filename};
-      await newListing.save();
+      newListing.geometry = response.body.features[0].geometry;
+      let savedListing = await newListing.save();
+      console.log(savedListing);
       req.flash("success", " New Listing Created!");
       res.redirect("/listings");
   };
@@ -70,7 +85,9 @@ module.exports.edit = async (req , res) => {
   let selectedListing = await Listing.findById(id).populate('owner');
   console.log(selectedListing);
   if(selectedListing.owner.username == req.user.username){
-    res.render("listings/edit.ejs" , { selectedListing });
+    let editImgUrl = selectedListing.image.url;
+    editImgUrl = editImgUrl.replace("/upload", "/upload/w_250");
+    res.render("listings/edit.ejs" , { selectedListing , editImgUrl });
   }else{
     req.flash("error","You are not authorized to edit that listing!");
     res.redirect("/listings");
