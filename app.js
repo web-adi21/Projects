@@ -1,3 +1,6 @@
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 require("dotenv").config();
 
 const express = require("express");
@@ -8,10 +11,15 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate")
 const ExpressError = require('./utils/ExpressError.js');
 const session = require("express-session");
+const MongoStore = require('connect-mongo').default || require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+
+const dbUrl = process.env.ATLASDB_URL;
+
+
 
 
 const listingRouter = require("./routes/listing.js");
@@ -27,8 +35,10 @@ main()
     console.log(err);
   })
 
+
+
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
+    await mongoose.connect(dbUrl);
 }; 
 
  
@@ -43,7 +53,23 @@ app.get("/", (req, res) => {
   res.redirect("/listings");
 })
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: "mysupersecretcode"
+  },
+  touchAfter: 24 * 3600,
+})
+
+store.on("error", () => {
+  console.log("ERROR IN MONGO SESSION STORE", err);i8ytrewqrtyu
+
+  ';liujgfdsaaz
+   
+})
+
 const sessionOptions = {
+  store,
   secret: "secretcode",
   resave: false,
   saveUninitialized: true,
@@ -53,6 +79,8 @@ const sessionOptions = {
     httpOnly: true,
   },
 };
+
+
 
 app.use(session(sessionOptions));
 
