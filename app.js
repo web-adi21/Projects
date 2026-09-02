@@ -56,21 +56,19 @@ app.get("/", (req, res) => {
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   crypto: {
-    secret: "mysupersecretcode"
+    secret: process.env.SECRET
   },
   touchAfter: 24 * 3600,
 })
 
 store.on("error", () => {
-  console.log("ERROR IN MONGO SESSION STORE", err);i8ytrewqrtyu
-
-  ';liujgfdsaaz
+  console.log("ERROR IN MONGO SESSION STORE", err);
    
 })
 
 const sessionOptions = {
   store,
-  secret: "secretcode",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie:{
