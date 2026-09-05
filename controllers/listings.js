@@ -2,20 +2,32 @@ const Listing = require("../models/listing");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({accessToken: mapToken});
+const Category = require("../models/category.js")
 
 //Index
-  module.exports.index = async (req , res) => {
+module.exports.index = async (req, res) => {
     try {
-    let allListings = await Listing.find({});
-    
-      
+        let query = {};
+        
+        
+        const queryLocation = req.query.queryLocation; 
+        
+        
+        if (queryLocation) {
+            query.location = { $regex: queryLocation, $options: 'i' };
+        }
+        
+        
+        const allListings = await Listing.find(query);
+        
+       
         res.render("listings/index.ejs", { allListings });
-    } catch(err) {
+
+    } catch (err) {
         console.log(err);
-        res.send("error occured while getting data from the database");
+        res.send("An error occurred while getting data from the database.");
     }
-    
-  };
+};
 
 
 
@@ -23,9 +35,11 @@ const geocodingClient = mbxGeocoding({accessToken: mapToken});
   module.exports.newGet = async (req , res) => {
     
     try{
-        res.render("listings/new.ejs")
+        const allCategories = await Category.find({});
+        res.render("listings/new.ejs",{categories: allCategories});
     }catch(error) {
       console.log(error);
+      res.send("Error Loading The form");
     }
 
   };

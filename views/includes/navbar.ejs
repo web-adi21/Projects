@@ -1,37 +1,36 @@
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+    
+    <a class="navbar-brand ms-3" href="/listings"><i class="fa-solid fa-compass"></i></a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
           <a class="nav-link" href="/listings">Explore</a>
         </li>
-         
-        
       </ul>
-    </div>
-    <div class="collapse navbar-collapse ms-auto" id="navbarSupportedContent">
-      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        </li>
-        <%if(currUser){%>
-          <li class="nav-item">
-          <button class="btn btn-outline-danger ms-2"><a class="nav-link" href="/logout">LogOut</a></button>
-          </li>
-        <%} else {%>
-        <li class="nav-item">
-          <button class="btn btn-outline-primary ms-2"><a class="nav-link " href="/signup">SignUp</a></button>
-        </li>
-        <li class="nav-item">
-          <button class="btn btn-outline-success ms-2"><a class="nav-link" href="/login">LogIn</a></button>
-        </li>
-      <%}%>
+
+      <form class="searchBar d-flex mx-auto mb-2 mb-md-0" role="search" method="get">
+        <input class="form-control me-2" type="search" placeholder="Search Destinations" aria-label="Search" name="queryLocation"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+      <div class="navbar-nav ms-auto mb-2 mb-md-0 gap-2 align-items-center">
+        <a class="btn btn-outline-primary" href="/listings/new">Airbnb your home</a>
         
-      </ul>
+        <% if(currUser) { %>
+          <a class="btn btn-outline-danger" href="/logout">LogOut</a>
+        <% } else { %>
+          <a class="btn btn-outline-primary" href="/signup">SignUp</a>
+          <a class="btn btn-outline-success" href="/login">LogIn</a>
+        <% } %>
+      </div>
+
     </div>
   </div>
 </nav>

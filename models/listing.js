@@ -51,7 +51,8 @@ let listingSchema = new Schema({
       type:[Number],
       required:true
     }
-  }
+  },
+  category: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
 })
 
 listingSchema.post("findOneAndDelete", async(listing) => {
