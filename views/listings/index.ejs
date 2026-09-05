@@ -1,100 +1,77 @@
 <% layout("/layouts/boilerplate") %> 
-<style>
-  #filter-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  #filter {
-    margin-top: 1rem;
-    margin-right: 3rem;
-    text-align: center;
-    opacity: 0.7;
-    
-  }
-  #filter:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-</style>
-<body>
-  <br>
-  <!-- <h3>All Listings</h3> -->
-  <!-- <form method="get" action="/listings/new">
-    <button>Create New</button>
-  </form> -->
 
-  <div id="filter-container" class="mb-2">
+<div id="filter-container" class="mb-2">
 
-    <div id="filter">
-      <div><i class="fa-solid fa-fire"></i></div>
-      <p>Trending</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-bed"></i></div>
-      <p>Rooms</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-archway"></i></div>
-      <p>Iconic Cities</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-mountain-sun"></i></div>
-      <p>Mountains</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-brands fa-fort-awesome-alt"></i></div>
-      <p>Castles</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-person-swimming"></i></div>
-      <p>Amazing pools</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-campground"></i></div>
-      <p>Camping</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-tractor"></i></div>
-      <p>Farms</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-umbrella-beach"></i></div>
-      <p>Beaches</p>
-    </div>
-
-    <div id="filter">
-      <div><i class="fa-solid fa-snowman"></i></div>
-      <p>Snowie Peaks</p>
-    </div>
-
-    
-  </div>
   
-<div class="row row-col-lg-3 row row-col-md-2 row row-col-sm-1">
-   <% for(let i = 0; i<allListings.length;i++) {%>
-    
-  <div class="card index-card listing-card" style="width: 25rem;" >
-  <a href="/listings/<%= allListings[i].id %>" class="card-anchor">
-  <img src="<%= allListings[i].image.url %>" class="card-img-top listing-img" alt="listing_image" style="height: 20rem;">
-  <div class="card-body">
-    <h5 class="card-title"><%=allListings[i].title%><br><br>&#8377;<b><%=allListings[i].price.toLocaleString("en-IN")%></b></h5>
-    
-  <p class="card-text"><%=allListings[i].description%>.</p>
-    
-    
-  </div>
+  <a href="/listings?category=Trending" class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
   </a>
+
+  <a href="/listings?category=Rooms" class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </a>
+
+  <a href="/listings?category=Iconic Cities" class="filter">
+    <div><i class="fa-solid fa-archway"></i></div>
+    <p>Iconic Cities</p>
+  </a>
+
+  <a href="/listings?category=Mountains" class="filter">
+    <div><i class="fa-solid fa-mountain-sun"></i></div>
+    <p>Mountains</p>
+  </a>
+
+  <a href="/listings?category=Castles" class="filter">
+    <div><i class="fa-brands fa-fort-awesome-alt"></i></div>
+    <p>Castles</p>
+  </a>
+
+  <a href="/listings?category=Amazing pools" class="filter">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Amazing pools</p>
+  </a>
+
+  <a href="/listings?category=Camping" class="filter">
+    <div><i class="fa-solid fa-campground"></i></div>
+    <p>Camping</p>
+  </a>
+
+  <a href="/listings?category=Farms" class="filter">
+    <div><i class="fa-solid fa-tractor"></i></div>
+    <p>Farms</p>
+  </a>
+
+  <a href="/listings?category=Beaches" class="filter">
+    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+    <p>Beaches</p>
+  </a>
+
+  <a href="/listings?category=Snowie Peaks" class="filter">
+    <div><i class="fa-solid fa-snowman"></i></div>
+    <p>Snowie Peaks</p>
+  </a>
+
 </div>
 
-<% } %>
-</div>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
 
-</body>
+  <% for(let listing of allListings) { %>
+    
+    <div class="col">
+      <div class="card index-card listing-card h-100">
+        <a href="/listings/<%= listing._id %>" class="card-anchor text-decoration-none text-dark">
+          <img src="<%= listing.image.url %>" class="card-img-top listing-img" alt="listing_image" style="height: 20rem; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title"><%= listing.title %></h5>
+            <p class="mb-2">&#8377;<b><%= listing.price.toLocaleString("en-IN") %></b> / night</p>
+           
+            <p class="card-text text-truncate"><%= listing.description %></p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  <% } %>
+</div>

@@ -17,6 +17,18 @@ module.exports.index = async (req, res) => {
             query.location = { $regex: queryLocation, $options: 'i' };
         }
         
+        const queryCategory = req.query.category;
+        if (queryCategory) {
+    
+        const categoryObj = await Category.findOne({ name: queryCategory });
+    
+    
+        if (categoryObj) {
+        query.category = categoryObj._id; 
+        } else {
+        query.category = null; 
+        }
+    }
         
         const allListings = await Listing.find(query);
         
@@ -35,6 +47,7 @@ module.exports.index = async (req, res) => {
   module.exports.newGet = async (req , res) => {
     
     try{
+
         const allCategories = await Category.find({});
         res.render("listings/new.ejs",{allCategories});
     }catch(error) {
