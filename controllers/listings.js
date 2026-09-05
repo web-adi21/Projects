@@ -36,7 +36,7 @@ module.exports.index = async (req, res) => {
     
     try{
         const allCategories = await Category.find({});
-        res.render("listings/new.ejs",{categories: allCategories});
+        res.render("listings/new.ejs",{allCategories});
     }catch(error) {
       console.log(error);
       res.send("Error Loading The form");
@@ -96,12 +96,13 @@ let selectedListing = await Listing.findById(id)
 module.exports.edit = async (req , res) => {
 
   let { id } = req.params;
+  const allCategories = await Category.find({});
   let selectedListing = await Listing.findById(id).populate('owner');
   console.log(selectedListing);
   if(selectedListing.owner.username == req.user.username){
     let editImgUrl = selectedListing.image.url;
     editImgUrl = editImgUrl.replace("/upload", "/upload/w_250");
-    res.render("listings/edit.ejs" , { selectedListing , editImgUrl });
+    res.render("listings/edit.ejs" , { selectedListing , editImgUrl , allCategories });
   }else{
     req.flash("error","You are not authorized to edit that listing!");
     res.redirect("/listings");
